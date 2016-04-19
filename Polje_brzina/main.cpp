@@ -17,7 +17,6 @@ void ubrzanje ( const state_type &x , state_type &dxdt , const double )
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-
     state_type x = { 1.0 , 1.0 , 1.0 };
     runge_kutta4< state_type > stepper;
     integrate_const( stepper , ubrzanje , x , 0.0 , 10.0 , 0.01 );
