@@ -28,6 +28,7 @@ find_package(Qt5Core)
 set(CMAKE_AUTOMOC ON)
 
 find_package(Boost 1.55 REQUIRED)
+
 if(Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIR})
 endif()

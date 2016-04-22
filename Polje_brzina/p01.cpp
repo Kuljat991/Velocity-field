@@ -2,6 +2,7 @@
 #include "qdebug.h"
 #include <math.h>
 #include <iostream>
+#include <fstream>
 #include <sstream>
 #include <boost/numeric/odeint/integrate/integrate_const.hpp>
 #include <boost/numeric/odeint/integrate/integrate_adaptive.hpp>
@@ -10,6 +11,7 @@
 
 using namespace boost::math::double_constants;
 using std::vector;
+using std::ostream;
 typedef std::vector< double > state_type;
 
 /**
@@ -60,7 +62,7 @@ struct push_back_state_and_time
     }
 };
 
-void draw ( const vector<double> &x, const vector<double> &y, const vector<double> &t )
+void draw ( std::ostream &os,const vector<double> &x, const vector<double> &y, const vector<double> &t )
 {
     std::stringstream stream;
 
@@ -69,8 +71,9 @@ void draw ( const vector<double> &x, const vector<double> &y, const vector<doubl
         stream << t[i]<<"\t"<<x[i]<<"\t"<<y[i]<<"\n";
     }
 
-    std::cout<<stream.str() <<"\n";
+    os<<stream.str() <<"\n";
 }
+
 
 void prvitest()
 {
@@ -88,7 +91,8 @@ void prvitest()
                       pocetni_uvjeti ,
                       start_time , end_time , integration_step,
                       push_back_state_and_time ( x,y,t ) );
-    draw ( x,y,t );
+    
+    draw ( std::cout, x,y,t );
 }
 
 void drugitest()
@@ -108,7 +112,11 @@ void drugitest()
                          pocetni_uvjeti ,
                          start_time , end_time , integration_step,
                          push_back_state_and_time ( x,y,t ) );
-    draw ( x,y,t );
+    draw ( std::cout, x,y,t );
+    std::ofstream fout("myout.txt");
+    draw ( fout, x,y,t );
+    fout.close();
+    
 }
 int main()
 {
