@@ -1,0 +1,8 @@
+#ifndef _pathconfig_h
+#define _pathconfig_h
+
+#include <string>
+
+const std::string resultsPath("@RESULTS_FOLDER@");
+
+#endif
