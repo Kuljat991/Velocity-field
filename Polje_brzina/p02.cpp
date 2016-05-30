@@ -47,8 +47,8 @@ struct push_back_state_and_time
     std::vector< double >& m_states_y;
     std::vector< double >& m_times;
 
-    push_back_state_and_time( std::vector< double > &states_x , std::vector< double > &states_y, std::vector< double > &times )
-    : m_states_x( states_x ) ,m_states_y( states_y ), m_times( times ) { }
+    push_back_state_and_time ( std::vector< double > &states_x , std::vector< double > &states_y, std::vector< double > &times )
+        : m_states_x( states_x ) ,m_states_y( states_y ), m_times( times ) { }
 
     void operator()( const state_type &x , double t )
     {
@@ -109,7 +109,7 @@ void drugitest()
                          start_time , end_time , integration_step,
                          push_back_state_and_time ( x,y,t ) );
     draw ( std::cout, x,y,t );
-    std::ofstream fout(resultsPath + "/myout.txt");
+    std::ofstream fout( resultsPath + "/VectorField.txt");
     draw ( fout, x,y,t );
     fout.close();
 

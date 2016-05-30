@@ -1,5 +1,4 @@
-#include <QCoreApplication>
-#include "qdebug.h"
+#include <QDebug>
 #include <math.h>
 #include <iostream>
 #include <fstream>
@@ -8,6 +7,9 @@
 #include <boost/numeric/odeint/integrate/integrate_adaptive.hpp>
 #include <boost/numeric/odeint/stepper/runge_kutta4.hpp>
 #include <boost/math/constants/constants.hpp>
+#include <boost/numeric/odeint/integrate/integrate_const.hpp>
+#include <boost/numeric/odeint/stepper/runge_kutta4.hpp>
+#include "pathconfig.h"
 
 using namespace boost::math::double_constants;
 using std::vector;
@@ -113,11 +115,12 @@ void drugitest()
                          start_time , end_time , integration_step,
                          push_back_state_and_time ( x,y,t ) );
     draw ( std::cout, x,y,t );
-    std::ofstream fout("myout.txt");
+    std::ofstream fout( resultsPath + "/VectorField_const.txt");
     draw ( fout, x,y,t );
     fout.close();
     
 }
+
 int main()
 {
 
@@ -126,11 +129,5 @@ int main()
     drugitest();
     std::cout<<"**************\n";
 
-
-
-
-
-
     return 0;
 }
-
