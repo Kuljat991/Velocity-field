@@ -35,7 +35,6 @@ def quiver_dyn_colors(px, py, un, vn, value):
                value,  # colour the arrows based on this array
                cmap=cm.Accent,  # colour map
                headlength=7)  # length of the arrows
-
     plt.colorbar()  # adds the colour bar
 
     plt.title('Quive Plot, Dynamic Colours')
@@ -98,7 +97,6 @@ def surface_3d(px, py, vel):
     #ax.zaxis.set_major_formatter(FormatStrFormatter('%.02f'))
     ax.set_title('Brzine')  # title
     plot5.colorbar(surf, shrink=0.5, aspect=5)  # colour bar
-
     #ax.view_init(elev=30, azim=70)  # elevation & angle
     #ax.dist = 8  # distance from the plot
 

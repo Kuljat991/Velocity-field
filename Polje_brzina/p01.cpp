@@ -49,11 +49,11 @@ void kruzno_gibanje ( const state_type  &state,  state_type &dxdt , const double
 
 struct push_back_state_and_time
 {
-    std::vector< double >& m_states_x;
-    std::vector< double >& m_states_y;
-    std::vector< double >& m_times;
+    vector< double >& m_states_x;
+    vector< double >& m_states_y;
+    vector< double >& m_times;
 
-    push_back_state_and_time ( std::vector< double > &states_x , std::vector< double > &states_y, std::vector< double > &times )
+    push_back_state_and_time ( vector< double > &states_x , vector< double > &states_y, vector< double > &times )
         : m_states_x ( states_x ) ,m_states_y ( states_y ), m_times ( times ) { }
 
     void operator() ( const state_type &x , double t )
@@ -83,41 +83,53 @@ void prvitest()
     vector<double> x;
     vector<double> y;
     vector<double> t;
+    vector< state_type > pocetni_uvjeti;
+    pocetni_uvjeti.push_back({1.0, 0.0});
+    pocetni_uvjeti.push_back({1.5, 0.0});
+    pocetni_uvjeti.push_back({2.0, 0.0});
 
     const double start_time = 0.;
     const double end_time = 2*pi;
     const double integration_step = pi/16;
     runge_kutta4< state_type > stepper;
-    state_type pocetni_uvjeti = { 0.0 , 0.0 };
-    integrate_const ( stepper , sinusoida ,
-                      pocetni_uvjeti ,
-                      start_time , end_time , integration_step,
-                      push_back_state_and_time ( x,y,t ) );
-    
+
+    for (int i= 0; i< pocetni_uvjeti.size(); i++ ){
+        integrate_const ( stepper , sinusoida ,
+                          pocetni_uvjeti[i] ,
+                          start_time , end_time , integration_step,
+                          push_back_state_and_time ( x,y,t ) );
+    }
     draw ( std::cout, x,y,t );
+
 }
 
 void drugitest()
 {
     using namespace boost::numeric::odeint;
-    vector<double> x;
-    vector<double> y;
-    vector<double> t;
+    vector <vector<double>> x;
+    vector <vector<double>> y;
+    vector <vector<double>> t;
+    vector< state_type > pocetni_uvjeti;
+    pocetni_uvjeti.push_back({1.0, 0.0});
+    pocetni_uvjeti.push_back({1.5, 0.0});
+    pocetni_uvjeti.push_back({2.0, 0.0});
 
     const double start_time = 0.;
     const double end_time = 2*pi;
     const double integration_step = pi/100;
     runge_kutta4< state_type > stepper;
-    state_type pocetni_uvjeti = { 1.0 , 0.0 };
+    //state_type pocetni_uvjeti = { 1.0 , 0.0 };
 
-    integrate_adaptive ( stepper , kruzno_gibanje ,
-                         pocetni_uvjeti ,
-                         start_time , end_time , integration_step,
-                         push_back_state_and_time ( x,y,t ) );
-    draw ( std::cout, x,y,t );
-    std::ofstream fout( resultsPath + "/VectorField_const.txt");
-    draw ( fout, x,y,t );
-    fout.close();
+    for (int i= 0; i< pocetni_uvjeti.size(); i++ ){
+        integrate_adaptive ( stepper , kruzno_gibanje ,
+                             pocetni_uvjeti[i] ,
+                             start_time , end_time , integration_step,
+                             push_back_state_and_time ( x[i],y[i],t[i] ) );
+        //draw ( std::cout, x[i],y[i],t[i] );
+    }
+        //std::ofstream fout( resultsPath + "/VectorField_const.txt");
+        //draw ( fout, x,y,t );
+        //fout.close();
     
 }
 
