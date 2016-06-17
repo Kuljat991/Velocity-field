@@ -10,6 +10,7 @@
 #include <boost/numeric/odeint/integrate/integrate_const.hpp>
 #include <boost/numeric/odeint/stepper/runge_kutta4.hpp>
 #include "pathconfig.h"
+#include "velocity_functions.h"
 
 using namespace boost::math::double_constants;
 using std::vector;
@@ -30,22 +31,6 @@ void sinusoida ( const state_type  &/*state*/,  state_type &dxdt , const double 
     dxdt[1] = cos ( t );
 }
 
-/**
- * Testna f-ja 1
- * Stacionarno vektorsko polje brzina - ne mijenja se u vremenu
- * \nabla \times \mathbf{v} = 0
- * gdje je \mathbf{v} = \left( -\frac{y}{x^2+y^2}, \frac{x}{x^2+y^2} \right)
- *
- * Za render copy/paste ovdje: http://arachnoid.com/latex/
- *
- * Rješenje: svugdje vektori jednake duljine (1) i kružno gibanje oko (0,0)
- */
-void kruzno_gibanje ( const state_type  &state,  state_type &dxdt , const double /*t*/ )
-{
-
-    dxdt[0] = -state[1]/ ( state[0]*state[0]+state[1]*state[1] );
-    dxdt[1] =  state[0]/ ( state[0]*state[0]+state[1]*state[1] );
-}
 
 struct push_back_state_and_time
 {
@@ -93,7 +78,7 @@ void prvitest()
     const double integration_step = pi/16;
     runge_kutta4< state_type > stepper;
 
-    for (int i= 0; i< pocetni_uvjeti.size(); i++ ){
+    for (size_t i= 0; i< pocetni_uvjeti.size(); i++ ){
         integrate_const ( stepper , sinusoida ,
                           pocetni_uvjeti[i] ,
                           start_time , end_time , integration_step,
@@ -103,12 +88,24 @@ void prvitest()
 
 }
 
+struct particle_solution
+{
+    particle_solution(const std::string& n): name(n) {}
+    std::string name;
+    vector<double> x;
+    vector<double> y;
+    vector<double> t;
+};
 void drugitest()
 {
     using namespace boost::numeric::odeint;
-    vector <vector<double>> x;
-    vector <vector<double>> y;
-    vector <vector<double>> t;
+    vector<particle_solution> solutions;
+    solutions.emplace_back("1");
+    solutions.emplace_back("2");
+    solutions.emplace_back("3");
+    
+    std::cout<<solutions.size()<<std::endl;
+
     vector< state_type > pocetni_uvjeti;
     pocetni_uvjeti.push_back({1.0, 0.0});
     pocetni_uvjeti.push_back({1.5, 0.0});
@@ -120,23 +117,31 @@ void drugitest()
     runge_kutta4< state_type > stepper;
     //state_type pocetni_uvjeti = { 1.0 , 0.0 };
 
-    for (int i= 0; i< pocetni_uvjeti.size(); i++ ){
-        integrate_adaptive ( stepper , kruzno_gibanje ,
+    std::ofstream fout( resultsPath + "/velocity_data.txt");
+    fout<<"kruzno_gibanje\n";
+    fout.close();
+    for (size_t i= 0; i< pocetni_uvjeti.size(); i++ )
+    {
+        integrate_adaptive ( stepper , const_kruzno_gibanje ,
                              pocetni_uvjeti[i] ,
                              start_time , end_time , integration_step,
-                             push_back_state_and_time ( x[i],y[i],t[i] ) );
+                             push_back_state_and_time ( solutions[i].x,solutions[i].y,solutions[i].t ) );
         //draw ( std::cout, x[i],y[i],t[i] );
     }
-        //std::ofstream fout( resultsPath + "/VectorField_const.txt");
-        //draw ( fout, x,y,t );
-        //fout.close();
+    for(const auto& s : solutions)
+    {
+        
+        std::ofstream fout( resultsPath + "/" + s.name + ".txt");
+        draw ( fout, s.x,s.y,s.t );
+        fout.close();
+    }
     
 }
 
 int main()
 {
 
-    prvitest();
+    //prvitest();
     std::cout<<"**************\n";
     drugitest();
     std::cout<<"**************\n";

@@ -10,7 +10,7 @@
 #include <boost/numeric/odeint/integrate/integrate_const.hpp>
 #include <boost/numeric/odeint/stepper/runge_kutta4.hpp>
 #include "pathconfig.h"
-
+#include "velocity_functions.h"
 using namespace boost::math::double_constants;
 using std::vector;
 using std::ostream;
