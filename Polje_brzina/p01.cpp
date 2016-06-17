@@ -118,7 +118,7 @@ void drugitest()
     //state_type pocetni_uvjeti = { 1.0 , 0.0 };
 
     std::ofstream fout( resultsPath + "/velocity_data.txt");
-    fout<<"kruzno_gibanje\n";
+    fout<<"const_kruzno_gibanje\n";
     fout.close();
     for (size_t i= 0; i< pocetni_uvjeti.size(); i++ )
     {
@@ -128,12 +128,14 @@ void drugitest()
                              push_back_state_and_time ( solutions[i].x,solutions[i].y,solutions[i].t ) );
         //draw ( std::cout, x[i],y[i],t[i] );
     }
+    int i=0;
     for(const auto& s : solutions)
     {
         
-        std::ofstream fout( resultsPath + "/" + s.name + ".txt");
+        std::ofstream fout( resultsPath + "/" + std::to_string(i) + ".txt");
         draw ( fout, s.x,s.y,s.t );
         fout.close();
+        ++i;
     }
     
 }
