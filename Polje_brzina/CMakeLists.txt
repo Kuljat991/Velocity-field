@@ -48,12 +48,12 @@ if(Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIR})
 endif()
 
-add_executable(p01 WIN32 p01.cpp velocity_functions.cpp)
+add_executable(p01 WIN32 p01.cpp velocity_functions.cpp utility.h)
 set_property(TARGET p01 PROPERTY CXX_STANDARD 11)
 target_link_libraries(p01 Qt5::Core ${Boost_LIBRARIES})
 qt5_use_modules( p01 Core)
 
-add_executable(p02 WIN32 p02.cpp)
+add_executable(p02 WIN32 p02.cpp velocity_functions.cpp)
 set_property(TARGET p02 PROPERTY CXX_STANDARD 11)
 target_link_libraries(p02 Qt5::Core ${Boost_LIBRARIES})
 

@@ -1,8 +1,5 @@
 #include <QDebug>
 #include <math.h>
-#include <iostream>
-#include <fstream>
-#include <sstream>
 #include <boost/numeric/odeint/integrate/integrate_const.hpp>
 #include <boost/numeric/odeint/integrate/integrate_adaptive.hpp>
 #include <boost/numeric/odeint/stepper/runge_kutta4.hpp>
@@ -11,6 +8,8 @@
 #include <boost/numeric/odeint/stepper/runge_kutta4.hpp>
 #include "pathconfig.h"
 #include "velocity_functions.h"
+#include "utility.h"
+
 
 using namespace boost::math::double_constants;
 using std::vector;
@@ -29,36 +28,6 @@ void sinusoida ( const state_type  &/*state*/,  state_type &dxdt , const double 
 {
     dxdt[0] = 1;
     dxdt[1] = cos ( t );
-}
-
-
-struct push_back_state_and_time
-{
-    vector< double >& m_states_x;
-    vector< double >& m_states_y;
-    vector< double >& m_times;
-
-    push_back_state_and_time ( vector< double > &states_x , vector< double > &states_y, vector< double > &times )
-        : m_states_x ( states_x ) ,m_states_y ( states_y ), m_times ( times ) { }
-
-    void operator() ( const state_type &x , double t )
-    {
-        m_states_x.push_back ( x[0] );
-        m_states_y.push_back ( x[1] );
-        m_times.push_back ( t );
-    }
-};
-
-void draw ( std::ostream &os,const vector<double> &x, const vector<double> &y, const vector<double> &t )
-{
-    std::stringstream stream;
-
-    for ( size_t i=0; i< t.size(); ++i )
-    {
-        stream << t[i]<<"\t"<<x[i]<<"\t"<<y[i]<<"\n";
-    }
-
-    os<<stream.str() <<"\n";
 }
 
 
@@ -88,16 +57,12 @@ void prvitest()
 
 }
 
-struct particle_solution
-{
-    particle_solution(const std::string& n): name(n) {}
-    std::string name;
-    vector<double> x;
-    vector<double> y;
-    vector<double> t;
-};
+
 void drugitest()
 {
+    std::string dir_path = resultsPath + "/const_field";
+    create_folder(dir_path);
+
     using namespace boost::numeric::odeint;
     vector<particle_solution> solutions;
     solutions.emplace_back("1");
@@ -117,7 +82,7 @@ void drugitest()
     runge_kutta4< state_type > stepper;
     //state_type pocetni_uvjeti = { 1.0 , 0.0 };
 
-    std::ofstream fout( resultsPath + "/velocity_data.txt");
+    std::ofstream fout( dir_path + "/velocity_data.txt");
     fout<<"const_kruzno_gibanje\n";
     fout.close();
     for (size_t i= 0; i< pocetni_uvjeti.size(); i++ )
@@ -132,7 +97,7 @@ void drugitest()
     for(const auto& s : solutions)
     {
         
-        std::ofstream fout( resultsPath + "/" + std::to_string(i) + ".txt");
+        std::ofstream fout( dir_path + "/" + std::to_string(i) + ".txt");
         draw ( fout, s.x,s.y,s.t );
         fout.close();
         ++i;
