@@ -1,9 +1,10 @@
 #ifndef UTILITY_H
 #define UTILITY_H
-#include <direct.h>
+//#include <direct.h>
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <QDir>
 
 using std::vector;
 using std::ostream;
@@ -11,7 +12,8 @@ typedef std::vector< double > state_type;
 
 void create_folder (const std::string dir_path)
 {
-    mkdir(dir_path.c_str());
+    QDir d = QDir::current();
+    d.mkdir(dir_path.c_str());
 }
 
 //struct push_back_state_and_time
