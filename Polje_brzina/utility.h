@@ -10,10 +10,10 @@ using std::vector;
 using std::ostream;
 typedef std::vector< double > state_type;
 
-void create_folder (const std::string dir_path)
+void create_folder (const std::string& dir_path)
 {
-    QDir d = QDir::current();
-    d.mkdir(dir_path.c_str());
+    QDir mydir(QString::fromStdString(dir_path));
+    mydir.mkpath(QString::fromStdString(dir_path));
 }
 
 //struct push_back_state_and_time

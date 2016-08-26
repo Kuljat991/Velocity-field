@@ -37,19 +37,22 @@ void drugitest()
 
     using namespace boost::numeric::odeint;
 
+    vector <particle_solution> solutions;
+
     vector< state_type > pocetni_uvjeti;
     pocetni_uvjeti.push_back({1.0, 0.0});
     pocetni_uvjeti.push_back({1.5, 0.0});
     pocetni_uvjeti.push_back({2.0, 0.0});
 
-    ThreadPoint *threadpoint = new ThreadPoint(pocetni_uvjeti);
+    ThreadPoint *threadpoint = new ThreadPoint(pocetni_uvjeti, solutions);
     QThreadPool::globalInstance()->start(threadpoint);
 
+    QThreadPool::globalInstance()->waitForDone();
     int i =0;
-    for(const auto& s : threadpoint->solutions)
+    for(const auto& s : solutions)
     {
         std::ofstream fout( dir_path + "/" + std::to_string(i) + ".txt");
-        draw ( fout, threadpoint->solutions[i].x,threadpoint->solutions[i].y,threadpoint->solutions[i].t);
+        draw ( fout, solutions[i].x,solutions[i].y,solutions[i].t);
         fout.close();
         ++i;
     }

@@ -49,7 +49,7 @@ if(Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIR})
 endif()
 
-add_executable(p01 WIN32 p01.cpp velocity_functions.cpp ThreadPoint.cpp)
+add_executable(p01 WIN32 p01.cpp velocity_functions.cpp utility.h ThreadPoint.cpp)
 set_property(TARGET p01 PROPERTY CXX_STANDARD 11)
 target_link_libraries(p01 Qt5::Core ${Boost_LIBRARIES})
 qt5_use_modules( p01 Core)

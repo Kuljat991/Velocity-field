@@ -45,13 +45,14 @@ struct particle_solution
 class ThreadPoint : public QRunnable
 {
 public:
-    ThreadPoint(const vector <state_type> &pocetni_uvjeti);
+    ThreadPoint(const vector <state_type> &pocetni_uvjeti, vector <particle_solution> &solutions);
 private:
     //! m_x - vektor x koordinata, m_y - vektor y koordinata
     vector <state_type> m_pocetni_uvjeti;
     void run();
+    vector <particle_solution> & m_solutions;
 public:
-    vector <particle_solution> solutions;
+
 };
 
 #endif // ThreadPoint_H
