@@ -1,6 +1,5 @@
 #ifndef UTILITY_H
 #define UTILITY_H
-//#include <direct.h>
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -10,7 +9,8 @@ using std::vector;
 using std::ostream;
 typedef std::vector< double > state_type;
 
-void create_folder (const std::string& dir_path)
+void create_folder (const std::string &dir_path)
+
 {
     QDir mydir(QString::fromStdString(dir_path));
     mydir.mkpath(QString::fromStdString(dir_path));
