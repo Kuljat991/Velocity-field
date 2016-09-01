@@ -42,16 +42,21 @@ struct particle_solution
     vector<double> t;
 };
 
+//struct struktura_za_inicijalizaciju_threada
+//{
+//    vector <particle_solution>& m_vektor_rijesenja;
+//}
+
 class ThreadPoint : public QRunnable
 {
 public:
-    ThreadPoint(const vector <state_type> &pocetni_uvjeti, vector <particle_solution> &solutions);
+    ThreadPoint(const vector <state_type> &pocetni_uvjeti, vector <particle_solution> &solutions, std::string velocity_function);
 private:
     //! m_x - vektor x koordinata, m_y - vektor y koordinata
     vector <state_type> m_pocetni_uvjeti;
     void run();
     vector <particle_solution> & m_solutions;
-public:
+    std::string & m_velocity_function;
 
 };
 
