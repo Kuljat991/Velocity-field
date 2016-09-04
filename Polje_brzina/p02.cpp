@@ -38,6 +38,7 @@ void prvitest()
 void drugitest()
 {
     std::string dir_path = resultsPath + "/not_const_field";
+    delete_folder_content(dir_path);
     create_folder(dir_path);
 
     using namespace boost::numeric::odeint;
@@ -45,7 +46,7 @@ void drugitest()
     //! broj threda
     int const n_thread = 4;
     //! broj tocka
-    int const n_tocka = 500;
+    int const n_tocka = 8;
     //! puni threadovi
     int const puni_thredovi = n_tocka/n_thread;
     //! zadnji thread
@@ -78,7 +79,6 @@ void drugitest()
     {
         vector <state_type> trenutni_thread (vektor_tocka_po_threadu[i]);
         generate (trenutni_thread.begin(), trenutni_thread.end(), [&] () {++n ;return sve_tocke[n];});
-        qDebug () << trenutni_thread[i][0] << ' ' << trenutni_thread[i][1];
         spremnik_tocka->at(i) = trenutni_thread;
         i++;
     }

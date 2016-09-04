@@ -9,6 +9,20 @@ using std::vector;
 using std::ostream;
 typedef std::vector< double > state_type;
 
+void delete_folder_content (const std::string &dir_path)
+{
+    QDir dir( QString::fromStdString(dir_path));
+    if (dir.exists())
+    {
+        dir.setNameFilters(QStringList() << "*.*");
+        dir.setFilter(QDir::Files);
+        foreach(QString dirFile, dir.entryList())
+        {
+            dir.remove(dirFile);
+        }
+    }
+}
+
 void create_folder (const std::string &dir_path)
 
 {
