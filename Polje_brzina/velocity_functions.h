@@ -25,7 +25,7 @@ void sinusoida ( const state_type  &/*state*/,  state_type &dxdt , const double 
  *
  * Rješenje: svugdje vektori jednake duljine (1) i kružno gibanje oko (0,0)
  */
-void const_kruzno_gibanje ( const state_type  &state,  state_type &dxdt , const double /*t*/ );
+void const_kruzno_gibanje ( const state_type  &state,  state_type &dxdt , const double t );
 
 /**
  * Testna f-ja 1

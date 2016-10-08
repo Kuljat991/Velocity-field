@@ -44,6 +44,7 @@ find_package(Qt5Core)
 set(CMAKE_AUTOMOC ON)
 
 find_package(Boost 1.55 REQUIRED)
+find_package(Qt5Gui)
 
 if(Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIR})
@@ -57,6 +58,10 @@ qt5_use_modules( p01 Core)
 add_executable(p02 WIN32 p02.cpp velocity_functions.cpp ThreadPoint.cpp)
 set_property(TARGET p02 PROPERTY CXX_STANDARD 11)
 target_link_libraries(p02 Qt5::Core ${Boost_LIBRARIES})
-
 qt5_use_modules( p02 Core)
+
+add_executable(p03 WIN32 p03.cpp velocity_functions.cpp ThreadPoint.cpp)
+set_property(TARGET p03 PROPERTY CXX_STANDARD 11)
+target_link_libraries(p03 Qt5::Core Qt5::Gui ${Boost_LIBRARIES})
+qt5_use_modules( p03 Core)
 

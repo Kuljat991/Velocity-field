@@ -83,10 +83,10 @@ void drugitest()
         i++;
     }
     QThreadPool::globalInstance()->setMaxThreadCount(n_thread);
-
+    int svasta = 1;
     for(int i=0; i<n_thread; i++)
     {
-        ThreadPoint* ob = new ThreadPoint (spremnik_tocka->at(i), solutions->at(i),std::string("not_const_field"));
+        ThreadPoint* ob = new ThreadPoint (spremnik_tocka->at(i), solutions->at(i),svasta);
         QThreadPool::globalInstance()->start(ob);
     }
     QThreadPool::globalInstance()->waitForDone();

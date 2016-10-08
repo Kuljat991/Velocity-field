@@ -17,6 +17,6 @@ void const_kruzno_gibanje ( const state_type  &state,  state_type &dxdt , const 
 void kruzno_gibanje ( const state_type  &state,  state_type &dxdt , const double t )
 {
 
-    dxdt[0] = -state[1]/ ( state[0]*state[0]+state[1]*state[1] ) + 0.2*sin(t);
-    dxdt[1] =  state[0]/ ( state[0]*state[0]+state[1]*state[1] ) + 0.2*cos(t);
+    dxdt[0] = -state[1]/ ( state[0]*state[0]+state[1]*state[1] ) + sin(t);
+    dxdt[1] =  state[0]/ ( state[0]*state[0]+state[1]*state[1] ) + cos(t);
 }
