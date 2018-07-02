@@ -148,4 +148,5 @@ fabric.properties
 skripte/.idea/*.iml
 skripte/.idea/*.xml
 skripte/.idea/.name
+results/*
 # modules.xml
